@@ -5,6 +5,7 @@
 # The key base was updated as part of 2.3
 if Rails.configuration.loadbalanced_configuration
     Rails.application.config.session_store :cookie_store, key: '_greenlight-2_3_session',
+        expire_after: 12.hours,
         domain: ENV['GREENLIGHT_SESSION_DOMAIN'] || 'blindside-dev.com',
         secure: ENV['COOKIES_SECURE_OFF'].blank?,
         same_site: ENV['COOKIES_SAME_SITE'].presence || 'None'
