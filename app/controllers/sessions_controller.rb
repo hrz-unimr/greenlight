@@ -103,6 +103,7 @@ class SessionsController < ApplicationController
   # POST /users/logout
   def destroy
     logout
+    session.clear
     redirect_to root_path
   end
 
@@ -151,7 +152,7 @@ class SessionsController < ApplicationController
 
     result = send_ldap_request(params[:session], ldap_config)
     if ! result
-      logger.info "LDAP: #{params[:session][:username]} login failed."
+      logger.info "LDAP: '#{params[:session][:username]}' login failed."
       return redirect_to(ldap_signin_path, alert: I18n.t("invalid_credentials_external"))
     end
 
