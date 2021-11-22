@@ -289,11 +289,19 @@ en:
       help: If you believe this is a mistake, please contact your system administrator.
   expired_reset_token: Password reset link has expired!
   features:
-    title: Features
+    title: Choose your Conference Service
     rooms: Personalized Rooms
     recordings: Recording Management
     designs: Custom Designs
     authentication: User Authentication
+    lectures: Lectures
+    lecturesdescription: Lectures for up to 500 people. The option for recordings is planned for the next week. Please only stream audio and video of the lecturers or moderators.
+    seminars: Seminars and Exercises
+    seminarsdescription: Seminar and Exercise Courses for up to 100 people. Please only stream video of the lecturers or moderators.
+    learninggroups: Learning Groups
+    learninggroupsdescription: Students learning groups for up to 20 people. This service is currently planned. Please only stream video of the current speakers and moderators.
+    projectmeetings: Project Meetings
+    projectmeetingsdescription: Project Meetings for up to 100 people. Please only stream video of the current speakers and moderators.
   footer:
     legal: Terms
     privpolicy: Privacy Policy
@@ -305,11 +313,12 @@ en:
   go_back: Go back
   greenlight: Greenlight
   header:
-    all_recordings: All Recordings
+    all_recordings: Recordings
     dropdown:
       account_settings: Organization
       help: Need help?
       home: Home
+      rooms: Rooms
       settings: Profile
       signout: Sign out
   home_room: Home Room
@@ -328,15 +337,16 @@ en:
     search:
       start: Start searching...
   landing:
-    about: "%{href} is a simple front-end for your BigBlueButton open-source web conferencing server. You can create your own rooms to host sessions, or join others using a short and convenient link."
-    welcome: Welcome to BigBlueButton.
-    video: Watch our tutorial on using Greenlight
+    about: "The web conference service of Philipps-University Marburg is based on the open source software BigBlueButton and allows to create web-based lectures, seminars, exercises and and project meetings."
+    welcome: Welcome to Webconf.
+    video: Watch the official BigBlueButton/Greenlight tutorial
     upgrade: Show me how to upgrade to 2.0!
     version: We've released a new version of Greenlight, but your database isn't compatible.
   language_default: Default (browser language)
   ldap_error: Unable to connect to the LDAP server. Please check your LDAP configuration in the env file and ensure your server is running.
   login: Sign in
-  login_title: Sign in to your account
+  login_title: Sign in with your university account
+  login_title_sub: (without @students.uni-marburg.de / @staff.uni-marburg.de)
   mailer:
     user:
       approve:
@@ -498,7 +508,7 @@ en:
       recaptcha_unreachable: Oops, we failed to validate your reCAPTCHA response. Please try again.
       verification_failed: reCAPTCHA verification failed, please try again.
   recording:
-    all_recordings: All Recordings
+    all_recordings: Recordings
     email: Email Recording
     error: There was an error retrieving %{count} recording(s)
     no_public_recordings: This room has no public recordings.

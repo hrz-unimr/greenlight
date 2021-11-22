@@ -288,11 +288,19 @@ de_DE:
       help: "Falls Sie glauben, dass hier ein Fehler vorliegt, kontaktieren Sie Ihren Systemadministrator."
   expired_reset_token: Der Link zum Zurücksetzen des Passworts ist abgelaufen!
   features:
-    title: Eigenschaften
+    title: Wählen Sie Ihren Konferenz-Dienst
     rooms: Personalisierte Räume
     recordings: Aufzeichnungsmanagement
     designs: Eigene Designs
     authentication: Nutzerauthentifizierung
+    lectures: Vorlesungen
+    lecturesdescription: Vorlesungen für bis zu 500 Teilnehmende. Die Möglichkeit für Aufzeichnungen ist für nächste Woche geplant. Bitte aktivieren Sie Audio und Video nur für die Lehrenden und Moderierenden.
+    seminars: Seminare und Übungen
+    seminarsdescription: Seminar- und Übungskurse für bis zu 100 Teilnehmende. Bitte aktivieren Sie Audio und Video nur für die Lehrenden und Moderierenden.
+    learninggroups: Lerngruppen
+    learninggroupsdescription: Studentische Lerngruppen für bis zu 20 Teilnehmende. Dieser Dienst ist aktuell in Vorbereitung. Bitte aktivieren Sie Video nur für die aktuell Sprechenden und Moderierenden.
+    projectmeetings: Projekt-Treffen
+    projectmeetingsdescription: Projekt-Treffen für bis zu 100 Teilnehmende. Bitte aktivieren Sie Video nur für die aktuell Sprechenden und Moderierenden.
   footer:
     legal: Impressum
     privpolicy: Datenschutzerklärung
@@ -304,11 +312,12 @@ de_DE:
   go_back: Zurück
   greenlight: Greenlight
   header:
-    all_recordings: Alle Aufzeichnungen
+    all_recordings: Aufzeichnungen
     dropdown:
       account_settings: Organisation
       help: "Brauchen Sie Hilfe?"
-      home: Startseite
+      home: Start
+      rooms: Räume
       settings: Profil
       signout: Abmelden
   home_room: Startraum
@@ -327,15 +336,16 @@ de_DE:
     search:
       start: Suche beginnen...
   landing:
-    about: "%{href} ist eine benutzerfreundliche Oberfläche für das Open-Source-Webkonferenzsystem BigBlueButton. Sie können Ihre eigenen Räume erstellen, um Konferenzen zu veranstalten oder können bestehenden Konferenzen über einen kurzen und bequemen Link beitreten."
-    welcome: Willkommen zu BigBlueButton.
-    video: Schauen Sie sich unsere Anleitung zur Verwendung von Greenlight an
+    about: "Der Webkonferenz-Dienst der Philipps-Universität Marburg basiert auf der Open-Source-Software BigBlueButton und erlaubt die Web-basierte Umsetzung von Vorlesungen, Seminaren, Übungen und Projekt-Treffen."
+    welcome: Willkommen zu Webconf.
+    video: Schauen Sie sich die offizielle Anleitung von BigBlueButton/Greenlight an
     upgrade: "Zeigen Sie mir, wie ich auf Version 2.0. update!"
     version: "Wir haben eine neue Version von Greenlight veröffentlicht, aber Ihre Datenbank ist damit nicht kompatibel."
   language_default: Voreinstellung (Browsersprache)
   ldap_error: "Verbindung zum LDAP Server konnte nicht hergestellt werden. Bitte überprüfen Sie die LDAP Konfiguration und stellen Sie sicher, dass der LDAP-Server läuft."
   login: Einloggen
-  login_title: In Ihr Konto einloggen
+  login_title: Mit Ihrem Uni-Account einloggen
+  login_title_sub: (ohne @students.uni-marburg.de / @staff.uni-marburg.de)
   mailer:
     user:
       approve:

@@ -9,5 +9,5 @@ if Rails.configuration.loadbalanced_configuration
         secure: ENV['COOKIES_SECURE_OFF'].blank?,
         same_site: ENV['COOKIES_SAME_SITE'].presence || 'None'
 else
-    Rails.application.config.session_store :cookie_store, key: '_greenlight-2_3_session'
+    Rails.application.config.session_store :cookie_store, key: '_greenlight-2_3_session', path: Rails.application.config.action_controller.relative_url_root
 end
