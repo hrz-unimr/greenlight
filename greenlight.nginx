@@ -3,6 +3,8 @@
 # to the Greenlight application. If you are using a different
 # subpath, you should change it here.
 
+location /robots.txt {return 200 "User-agent: *\nDisallow: /\n";}
+
 location /b {
   proxy_pass          http://127.0.0.1:5000;
   proxy_set_header    Host              $host;
@@ -24,21 +26,151 @@ location /b/cable {
   client_body_timeout 6h;
   send_timeout        6h;
 }
-
-# Allow larger body size for uploading presentations
-location ~ /preupload_presentation$ {
-  client_max_body_size 30m;
-
-  proxy_pass          http://127.0.0.1:5000;
+location /c {
+  proxy_pass          http://127.0.0.1:5001;
   proxy_set_header    Host              $host;
   proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
   proxy_set_header    X-Forwarded-Proto $scheme;
   proxy_http_version  1.1;
 }
 
-# Only needed if using presentations and deployed at a relative root (ex "/b")
-# If deploying at "/", delete the section below
+location /c/cable {
+  proxy_pass          http://127.0.0.1:5001;
+  proxy_set_header    Host              $host;
+  proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+  proxy_set_header    X-Forwarded-Proto $scheme;
+  proxy_set_header    Upgrade           $http_upgrade;
+  proxy_set_header    Connection        "Upgrade";
+  proxy_http_version  1.1;
+  proxy_read_timeout  6h;
+  proxy_send_timeout  6h;
+  client_body_timeout 6h;
+  send_timeout        6h;
+}
+location /d {
+  proxy_pass          http://127.0.0.1:5002;
+  proxy_set_header    Host              $host;
+  proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+  proxy_set_header    X-Forwarded-Proto $scheme;
+  proxy_http_version  1.1;
+}
+
+location /d/cable {
+  proxy_pass          http://127.0.0.1:5002;
+  proxy_set_header    Host              $host;
+  proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+  proxy_set_header    X-Forwarded-Proto $scheme;
+  proxy_set_header    Upgrade           $http_upgrade;
+  proxy_set_header    Connection        "Upgrade";
+  proxy_http_version  1.1;
+  proxy_read_timeout  6h;
+  proxy_send_timeout  6h;
+  client_body_timeout 6h;
+  send_timeout        6h;
+}
+location /s {
+  proxy_pass          http://127.0.0.1:5004;
+  proxy_set_header    Host              $host;
+  proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+  proxy_set_header    X-Forwarded-Proto $scheme;
+  proxy_http_version  1.1;
+}
+
+location /s/cable {
+  proxy_pass          http://127.0.0.1:5004;
+  proxy_set_header    Host              $host;
+  proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+  proxy_set_header    X-Forwarded-Proto $scheme;
+  proxy_set_header    Upgrade           $http_upgrade;
+  proxy_set_header    Connection        "Upgrade";
+  proxy_http_version  1.1;
+  proxy_read_timeout  6h;
+  proxy_send_timeout  6h;
+  client_body_timeout 6h;
+  send_timeout        6h;
+}
+location /t {
+  proxy_pass          http://127.0.0.1:5003;
+  proxy_set_header    Host              $host;
+  proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+  proxy_set_header    X-Forwarded-Proto $scheme;
+  proxy_http_version  1.1;
+}
+
+location /t/cable {
+  proxy_pass          http://127.0.0.1:5003;
+  proxy_set_header    Host              $host;
+  proxy_set_header    X-Forwarded-For   $proxy_add_x_forwarded_for;
+  proxy_set_header    X-Forwarded-Proto $scheme;
+  proxy_set_header    Upgrade           $http_upgrade;
+  proxy_set_header    Connection        "Upgrade";
+  proxy_http_version  1.1;
+  proxy_read_timeout  6h;
+  proxy_send_timeout  6h;
+  client_body_timeout 6h;
+  send_timeout        6h;
+}
+location = / {
+  return 301 https://www.uni-marburg.de/de/hrz/dienste/web-konferenz-bigbluebutton/willkommen-bei-webconf;
+#  return 307 /b;
+}
+
+location = /b/ {
+ return 301 /;
+}
+
+location = /c/ {
+ return 301 /;
+}
+
+location = /d/ {
+ return 301 /;
+}
+location = /s/ {
+ return 301 /;
+}
+
+location /static/ {
+ root /var/www/html;
+}
 
 location /rails/active_storage {
-  return 301 /b$request_uri;
+  return 301 /c$request_uri;
 }
+
+location /monitor/ {
+auth_basic "BigBlueButton";  # The contents of this can be anything
+auth_basic_user_file /etc/nginx/.htpasswd;
+  proxy_pass         http://127.0.0.1:4000/;
+  proxy_redirect     default;
+  proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+  client_max_body_size       10m;
+  client_body_buffer_size    128k;
+  proxy_connect_timeout      90;
+  proxy_send_timeout         90;
+  proxy_read_timeout         90;
+  proxy_buffer_size          4k;
+  proxy_buffers              4 32k;
+  proxy_busy_buffers_size    64k;
+  proxy_temp_file_write_size 64k;
+  include    fastcgi_params;
+}
+location /monitor-students/ {
+auth_basic "BigBlueButton";  # The contents of this can be anything
+auth_basic_user_file /etc/nginx/.htpasswd;
+  proxy_pass         http://127.0.0.1:4001/;
+  proxy_redirect     default;
+  proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+  client_max_body_size       10m;
+  client_body_buffer_size    128k;
+  proxy_connect_timeout      90;
+  proxy_send_timeout         90;
+  proxy_read_timeout         90;
+  proxy_buffer_size          4k;
+  proxy_buffers              4 32k;
+  proxy_busy_buffers_size    64k;
+  proxy_temp_file_write_size 64k;
+  include    fastcgi_params;
+}
+
+error_page 502 /static/502-error.html;
