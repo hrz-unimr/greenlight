@@ -347,7 +347,7 @@ en:
   ldap_error: Unable to connect to the LDAP server. Please check your LDAP configuration in the env file and ensure your server is running.
   login: Sign in
   login_title: Sign in with your university account
-  login_title_sub: (without @students.uni-marburg.de / @staff.uni-marburg.de)
+  login_title_sub: (the first part of your mail adress before the @)
   mailer:
     user:
       approve:
