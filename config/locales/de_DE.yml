@@ -345,7 +345,7 @@ de_DE:
   ldap_error: "Verbindung zum LDAP Server konnte nicht hergestellt werden. Bitte überprüfen Sie die LDAP Konfiguration und stellen Sie sicher, dass der LDAP-Server läuft."
   login: Einloggen
   login_title: Mit Ihrem Uni-Account einloggen
-  login_title_sub: (ohne @students.uni-marburg.de / @staff.uni-marburg.de)
+  login_title_sub: (Der erste Teil Ihrer E-Mailadresse vor dem @)
   mailer:
     user:
       approve:
