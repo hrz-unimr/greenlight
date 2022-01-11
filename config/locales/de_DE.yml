@@ -345,7 +345,7 @@ de_DE:
   ldap_error: "Verbindung zum LDAP Server konnte nicht hergestellt werden. Bitte überprüfen Sie die LDAP Konfiguration und stellen Sie sicher, dass der LDAP-Server läuft."
   login: Einloggen
   login_title: Mit Ihrem Uni-Account einloggen
-  login_title_sub: (Bitte HRZ-Benutzerkennung als Teilnehmername verwenden)
+  login_title_sub: (Bitte HRZ-Benutzerkennung verwenden)
   mailer:
     user:
       approve:
