@@ -346,8 +346,10 @@ en:
   language_default: Default (browser language)
   ldap_error: Unable to connect to the LDAP server. Please check your LDAP configuration in the env file and ensure your server is running.
   login: Sign in
-  login_title: Sign in with your university account
   login_title_sub: (Please use your ID supplied by the HRZ)
+  login_page:
+    locked_out: Your account has been locked due to too many incorrect password attempts. Please try again later.
+  login_title: Sign in with your university account
   mailer:
     user:
       approve:
