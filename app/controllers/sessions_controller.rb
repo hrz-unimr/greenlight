@@ -143,7 +143,12 @@ flash: { alert: I18n.t("registration.insecure_password") } unless user.secure_pa
     ldap_config[:bind_dn] = ENV['LDAP_BIND_DN']
     ldap_config[:password] = ENV['LDAP_PASSWORD']
     ldap_config[:auth_method] = ENV['LDAP_AUTH']
-    ldap_config[:encryption] = ldap_encryption
+    ldap_config[:encryption] = case ENV['LDAP_METHOD']
+                               when 'ssl'
+                                 'simple_tls'
+                               when 'tls'
+                                 'start_tls'
+                               end
     ldap_config[:base] = ENV['LDAP_BASE']
     ldap_config[:filter] = ENV['LDAP_FILTER']
     ldap_config[:uid] = ENV['LDAP_UID']
