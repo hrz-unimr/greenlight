@@ -14,7 +14,21 @@
 %>
 
 <footer class="footer pt-3">
-  <p class="text-center mb-1"><a href="https://www.uni-marburg.de/de/impressum">Impressum</a> | <a href="https://www.uni-marburg.de/de/hrz/dienste/web-konferenzen/web-konferenz-bigbluebutton/datenschutzerklaerung">Datenschutz</a> | <a href="https://www.uni-marburg.de/de/hrz/dienste/web-konferenz-bigbluebutton">Hilfe und Beratung</a> | <a href="https://www.uni-marburg.de/de/hrz/dienste/web-konferenz-bigbluebutton/faq">FAQ</a> | Dieser Dienst basiert auf den Open-Source-Softwares <a href="https://docs.bigbluebutton.org/">BigBlueButton</a>, <a href="https://github.com/blindsidenetworks/scalelite">Scalelite</a> and <a href="https://docs.bigbluebutton.org/greenlight/gl-overview.html">Greenlight</a></p>
+  <p class="text-center mb-1">
+    <% if legal_url.present? %>
+      <span>
+        |
+        <%= link_to(t("footer.legal"), legal_url) %>
+      </span> 
+    <% end %>
+    <% if privpolicy_url.present? %>
+      <span>
+        |
+        <%= link_to(t("footer.privpolicy"), privpolicy_url)  %>
+      </span>
+    <% end %>
+	| Dieser Dienst basiert auf den Open-Source Anwendungen <a href="https://docs.bigbluebutton.org/">BigBlueButton</a>, <a href="https://github.com/blindsidenetworks/scalelite">Scalelite</a> und <a href="https://docs.bigbluebutton.org/greenlight/gl-overview.html">Greenlight</a></p>
+  </p>
 </footer>
 
-<%#= render "shared/components/cookie_warning" %>
+<%= render "shared/components/cookie_warning" %>
