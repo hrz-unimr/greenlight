@@ -19,8 +19,6 @@ Rails.application.config.omniauth_office365 = ENV['OFFICE365_KEY'].present? &&
 Rails.application.config.omniauth_openid_connect = ENV['OPENID_CONNECT_CLIENT_ID'].present? &&
                                                    ENV['OPENID_CONNECT_CLIENT_SECRET'].present? &&
                                                    ENV['OPENID_CONNECT_ISSUER'].present?
-
-Rails.application.config.omniauth_shibboleth = ENV['SHIBBOLETH'].present?
 Rails.application.config.omniauth_shibboleth = ENV['SHIB_UID_FIELD'].present? &&
                                                ENV['SHIB_NAME_FIELD'].present?  &&
                                                ENV['SHIB_SESSION_ID_FIELD'].present? &&
