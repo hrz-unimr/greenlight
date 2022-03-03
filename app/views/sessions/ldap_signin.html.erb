@@ -4,7 +4,7 @@
             <div class="card">
                 <div class="card-header background">
                   <h4 class="mt-2"><%= t("login_title") %></h4>
-                  <%= t("login_title_sub") %>
+                  &nbsp;<%= t("login_title_sub") %>
                 </div>
                 <div class="card-body background">
                     <%= form_for(:session, url: ldap_callback_path) do |f| %>
