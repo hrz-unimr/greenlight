@@ -20,6 +20,12 @@ Rails.application.config.omniauth_openid_connect = ENV['OPENID_CONNECT_CLIENT_ID
                                                    ENV['OPENID_CONNECT_CLIENT_SECRET'].present? &&
                                                    ENV['OPENID_CONNECT_ISSUER'].present?
 
+Rails.application.config.omniauth_shibboleth = ENV['SHIBBOLETH'].present?
+Rails.application.config.omniauth_shibboleth = ENV['SHIB_UID_FIELD'].present? &&
+                                               ENV['SHIB_NAME_FIELD'].present?  &&
+                                               ENV['SHIB_SESSION_ID_FIELD'].present? &&
+                                               ENV['SHIB_APPLICATION_ID_FIELD'].present? &&
+                                               ENV['SHIB_EMAIL_FIELD'].present?
 SETUP_PROC = lambda do |env|
   OmniauthOptions.omniauth_options env
 end
@@ -79,6 +85,28 @@ Rails.application.config.middleware.use OmniAuth::Builder do
           redirect_uri: redirect
         },
         setup: SETUP_PROC
+    end
+    if Rails.application.config.omniauth_shibboleth
+      if ENV['SHIB_ROLE_FIELDS'].present?
+        # for example HTTP_AFFILIATION:HTTP_HTTP_SHIB_ORGPERSON_ORGUNITNUMBER
+        role_fields = ENV['SHIB_ROLE_FIELDS'].split(':')
+      else
+        role_fields = []
+      end
+      # save for later use in SessionController
+      Rails.application.config.omniauth_shibboleth_role_fields = role_fields
+      # construct provider
+      Rails.application.config.providers << :shibboleth
+      provider :shibboleth, {
+        :uid_field  => ENV['SHIB_UID_FIELD'],
+        :name_field => ENV['SHIB_NAME_FIELD'],
+        :shib_session_id_field => ENV['SHIB_SESSION_ID_FIELD'],
+        :shib_application_id_field => ENV['SHIB_APPLICATION_ID_FIELD'],
+        :info_fields => {
+          :email => ENV['SHIB_EMAIL_FIELD'],
+        },
+        :extra_fields => role_fields
+      }
     end
   end
 end
