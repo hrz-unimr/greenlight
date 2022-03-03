@@ -28,7 +28,7 @@ zh_TW:
         old_password: 舊密碼
     errors:
       models:
-        user:q
+        user:
           confirmation: 不符合
           attributes:
             email:
