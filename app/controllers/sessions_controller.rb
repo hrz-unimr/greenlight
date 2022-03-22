@@ -47,6 +47,33 @@ class SessionsController < ApplicationController
   def ldap_signin
   end
 
+  # GET /auth/shibboleth
+  def shibboleth
+    # 
+    #logger.info "Support: #{request.headers.inspect} data #{request.headers['HTTP_PERSISTENT_ID']}"
+    if Rails.application.config.omniauth_shibboleth
+      if request.headers['HTTP_PERSISTENT_ID'].present?
+        logger.info "Support: Logging in Shibboleth User"
+        auth = {}
+        auth['uid'] = request.headers['HTTP_PERSISTENT_ID']
+        auth['provider'] = "shibboleth"
+        auth['info'] = {}
+        auth['info']['name'] = request.headers['HTTP_DISPLAYNAME']
+        auth['info']['nickname'] = request.headers['HTTP_DISPLAYNAME']
+        auth['info']['email'] = request.headers['HTTP_MAIL']
+        auth['info']['image'] = ""
+        auth['info']['roles'] = ""
+        user = User.from_omniauth(auth)
+        user.set_role("user") if user.role.nil?
+        login(user)
+      else
+        redirect_to root_path, alert: I18n.t("omniauth_specific_error", error: "Shibboleth Authentification failure")
+      end
+    else
+      redirect_to root_path, alert: I18n.t("omniauth_specific_error", error: "Not active")
+    end
+  end
+  
   # GET /signup
   def new
     # Check if the user needs to be invited
@@ -130,7 +157,7 @@ flash: { alert: I18n.t("registration.insecure_password") } unless User.secure_pa
       redirect_to root_path, alert: I18n.t("omniauth_specific_error", error: params["message"])
     end
   end
-
+  
   # GET /auth/ldap
   def ldap
     ldap_config = {}
@@ -229,41 +256,6 @@ flash: { alert: I18n.t("registration.insecure_password") } unless User.secure_pa
 
     logger.info "Support: Auth user #{user.email} is attempting to login."
 
-    if @auth['provider'] == 'shibboleth'
-      logger.info("Shibboleth login: #{@auth}")
-      logger.info("Shibboleth info: #{@auth.info}")
-      logger.info("Shibboleth extra: #{@auth.extra[:raw_info]}")
-      wanted_roles = []
-      Rails.application.config.omniauth_shibboleth_role_fields.each{|field|
-        # multivalue fields have their values joined by ; escaped by \
-        field_values = @auth.extra.raw_info[field].split(/(?<!\\);/)
-        field_values.each{|role_name|
-          # never assign reserved roles
-          next if Role::RESERVED_ROLE_NAMES.include?(role_name)
-          r = Role.find_by_name(role_name)
-          if r
-            wanted_roles << r
-          end
-        }
-      }
-      logger.info("wanted_roles: #{wanted_roles}")
-      current_roles = user.roles.where.not(name: Role::RESERVED_ROLE_NAMES).to_a
-      logger.info("current_roles: #{current_roles}")
-      # remove_unwanted_roles
-      current_roles.each{|r|
-        if not wanted_roles.include?(r)
-          logger.info("removing role #{r.name} from #{user.social_uid}")
-          user.remove_role(r.name)
-        end
-      }
-      # add missing roles
-      wanted_roles.each{|r|
-        if not current_roles.include?(r)
-          logger.info("adding role #{r.name} to #{user.social_uid}")
-          user.add_role(r.name)
-        end
-      }
-    end
     # Add pending role if approval method and is a new user
     if approval_registration && !@user_exists
       user.set_role :pending

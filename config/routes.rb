@@ -107,7 +107,8 @@ Rails.application.routes.draw do
   match '/auth/:provider/callback', to: 'sessions#omniauth', via: [:get, :post], as: :omniauth_session
   get '/auth/failure', to: 'sessions#omniauth_fail'
   post '/auth/ldap', to: 'sessions#ldap', as: :ldap_callback
-
+  get '/auth/shibboleth', to: 'sessions#shibboleth'
+  
   # Users who can't create rooms
   get '/rooms', to: 'rooms#cant_create_rooms', as: :cant_create_rooms
 
