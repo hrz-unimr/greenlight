@@ -49,28 +49,43 @@ class SessionsController < ApplicationController
 
   # GET /auth/shibboleth
   def shibboleth
-    # 
+    # HTTP_AFFILIATION
     #logger.info "Support: #{request.headers.inspect} data #{request.headers['HTTP_PERSISTENT_ID']}"
     if Rails.application.config.omniauth_shibboleth
-      if request.headers['HTTP_PERSISTENT_ID'].present?
-        logger.info "Support: Logging in Shibboleth User"
-        auth = {}
-        auth['uid'] = request.headers['HTTP_PERSISTENT_ID']
-        auth['provider'] = "shibboleth"
-        auth['info'] = {}
-        auth['info']['name'] = request.headers['HTTP_DISPLAYNAME']
-        auth['info']['nickname'] = request.headers['HTTP_DISPLAYNAME']
-        auth['info']['email'] = request.headers['HTTP_MAIL']
-        auth['info']['image'] = ""
-        auth['info']['roles'] = ""
-        user = User.from_omniauth(auth)
-        user.set_role("user") if user.role.nil?
-        login(user)
+      logger.info "Support: Trying to login Shibboleth User"
+      prefix = "HTTP_"
+      shib_affil = ENV['SHIB_AFFILIATION'] || ''
+      shib_affil_a = shib_affil.split(",")
+      shib_id = prefix + ENV['SHIB_ID'] || 'HTTP_PAIRWISE_ID'
+      if request.headers[shib_id].present?
+        if request.headers[shib_id].length > 1
+          if shib_affil_a.length == 0 || shib_affil_a.include?(request.headers['HTTP_AFFILIATION'])
+            auth = {}
+            auth['uid'] = request.headers[shib_id]
+            auth['provider'] = "shibboleth"
+            auth['info'] = {}
+            auth['info']['name'] = request.headers['HTTP_DISPLAYNAME']
+            auth['info']['nickname'] = request.headers['HTTP_DISPLAYNAME']
+            auth['info']['email'] = request.headers['HTTP_MAIL']
+            auth['info']['image'] = ""
+            auth['info']['roles'] = ""
+            user = User.from_omniauth(auth)
+            user.set_role("user") if user.role.nil?
+            login(user)
+          else
+            logger.info "Shibboleth Login denied: Affiliation source #{request.headers['HTTP_AFFILIATION']} not whitelisted in enviroment variable SHIB_AFFILIATION"
+            redirect_to root_path, alert: I18n.t("omniauth_error")
+          end
+        else
+          logger.info "Shibboleth Login denied: #{shib_id} is empty"
+          redirect_to root_path, alert: I18n.t("omniauth_error")
+        end
       else
-        redirect_to root_path, alert: I18n.t("omniauth_specific_error", error: "Shibboleth Authentification failure")
+        logger.info "Shibboleth Login denied: #{shib_id} is not sent"
+        redirect_to root_path, alert: I18n.t("omniauth_error")
       end
     else
-      redirect_to root_path, alert: I18n.t("omniauth_specific_error", error: "Not active")
+      redirect_to root_path, alert: I18n.t("omniauth_specific_error", error: "Shibboleth not configured")
     end
   end
   
