@@ -56,7 +56,7 @@ class SessionsController < ApplicationController
       prefix = "HTTP_"
       shib_affil = ENV['SHIB_AFFILIATION'] || ''
       shib_affil_a = shib_affil.split(",")
-      shib_id = prefix +   || 'HTTP_PAIRWISE_ID'
+      shib_id = prefix + ENV['SHIB_ID'] || 'HTTP_PAIRWISE_ID'
       if request.headers[shib_id].present?
         if request.headers[shib_id].length > 1
           if shib_affil_a.length == 0 || shib_affil_a.include?(request.headers['HTTP_AFFILIATION'])
