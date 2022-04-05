@@ -24,5 +24,6 @@ class MainController < ApplicationController
     session[:invite_token] = params[:invite_token] if params[:invite_token] && invite_registration
 
     redirect_to home_page if current_user
+    redirect_to ENV['CUSTOM_ENTRYURL'] if ENV['CUSTOM_ENTRYURL'].present?
   end
 end
