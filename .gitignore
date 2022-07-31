@@ -51,3 +51,4 @@ coverage*
 
 # Needed for rspec's --only-failures command
 spec/failures.txt
+.DS_Store

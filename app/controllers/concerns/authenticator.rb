@@ -50,7 +50,9 @@ module Authenticator
         dont_redirect_to.push(File.join(ENV['OAUTH2_REDIRECT'], "auth", "openid_connect", "callback"))
       end
 
-      url = if cookies[:return_to] && !dont_redirect_to.include?(cookies[:return_to])
+      valid_url = cookies[:return_to] && URI.parse(cookies[:return_to]).host == URI.parse(request.original_url).host
+
+      url = if cookies[:return_to] && valid_url && !dont_redirect_to.include?(cookies[:return_to])
         cookies[:return_to]
       elsif user.role.get_permission("can_create_rooms")
         user.main_room
@@ -85,6 +87,8 @@ module Authenticator
 
   # Check if the user exists under the same email with no social uid and that social accounts are allowed
   def auth_changed_to_social?(email)
+    return true if Rails.configuration.social_switching
+
     Rails.configuration.loadbalanced_configuration &&
       User.exists?(email: email, provider: @user_domain) &&
       !allow_greenlight_accounts?

@@ -3,8 +3,8 @@
 # BigBlueButton open source conferencing system - http://www.bigbluebutton.org/.
 #
 # Copyright (c) 2018 BigBlueButton Inc. and by respective authors (see below).
-#
 # This program is free software; you can redistribute it and/or modify it under the
+#
 # terms of the GNU Lesser General Public License as published by the Free Software
 # Foundation; either version 3.0 of the License, or (at your option) any later
 # version.
@@ -39,7 +39,7 @@ class SessionsController < ApplicationController
         "#{Rails.configuration.relative_url_root}/auth/#{@providers.first}"
       end
 
-      redirect_to provider_path
+      redirect_post(provider_path, options: { authenticity_token: :auto })
     end
   end
 
@@ -311,7 +311,10 @@ flash: { alert: I18n.t("registration.insecure_password") } unless User.secure_pa
 
   # Set the user's social id to the new id being passed
   def switch_account_to_social
-    user = User.find_by(email: @auth['info']['email'], provider: @user_domain)
+    user = User.find_by({
+      email: @auth['info']['email'],
+      provider: Rails.configuration.loadbalanced_configuration ? @user_domain : nil
+    }.compact)
 
     logger.info "Switching social account for #{user.uid}"
 
